@@ -1,8 +1,8 @@
 ## This file contains a timeline of what was done for the project by each group member and the timestamp for the same
 ## Project Members: 
 # 1. Aaradhy Sharma, SNU id: as783 roll no: 2210110100
-# 2. Unnat Sharma, SNU id: roll no: 
-# 3. Dhruv Mishra, SNU id: roll no:
+# 2. Unnat Sharma, SNU id: us997 roll no: 2210110634 
+# 3. Dhruv Mishra, SNU id: dm409 roll no: 2210110674
 
 
 # Log-1 : Date: 16 January 2024
