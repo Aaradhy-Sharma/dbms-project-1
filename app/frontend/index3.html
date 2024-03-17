@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    #table-list {
+      margin-top: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      transition: background-color 0.3s ease;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    #display-database-btn {
+      display: block;
+      margin: 0 auto;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #display-database-btn:hover {
+      background-color: #0056b3;
+    }
+
+    select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: border-color 0.3s ease;
+    }
+
+    select:hover {
+      border-color: #007bff;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Database Viewer</h1>
+    <div>
+      <label for="table-select">Select Table:</label>
+      <select id="table-select">
+        <option value="ADMIN">ADMIN</option>
+        <option value="CHIEF_GUEST">CHIEF_GUEST</option>
+        <option value="COLLEGE">COLLEGE</option>
+        <option value="Company">Company</option>
+        <option value="COMPETETION">COMPETETION</option>
+        <option value="CONFERENCE">CONFERENCE</option>
+        <option value="EVENT">EVENT</option>
+        <option value="FACULTY">FACULTY</option>
+        <option value="FEST">FEST</option>
+        <option value="Government">Government</option>
+        <option value="JUDGES">JUDGES</option>
+        <option value="MENTORED_BY">MENTORED_BY</option>
+        <option value="ORGANISATION">ORGANISATION</option>
+        <option value="PARTICIPATE_IN">PARTICIPATE_IN</option>
+        <option value="PERFORMER">PERFORMER</option>
+        <option value="PRIZE">PRIZE</option>
+        <option value="STUDENT">STUDENT</option>
+        <option value="USER">USER</option>
+      </select>
+    </div>
+    <div id="table-list"></div>
+    <button id="display-database-btn">Show Database</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    document.getElementById('display-database-btn').addEventListener('click', async () => {
+      try {
+        const selectedTable = document.getElementById('table-select').value;
+        const response = await axios.get(`/api/allTables`);
+        const tableData = response.data;
+        const tableList = document.getElementById('table-list');
+        tableList.innerHTML = `<h3>Data from Table "${selectedTable}":</h3>`;
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        const tbody = document.createElement('tbody');
+
+        // Create table headers
+        const headers = Object.keys(tableData[0]);
+        const headerRow = document.createElement('tr');
+        headers.forEach(header => {
+          const th = document.createElement('th');
+          th.textContent = header;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+
+        // Create table rows
+        tableData.forEach(rowData => {
+          const row = document.createElement('tr');
+          headers.forEach(header => {
+            const cell = document.createElement('td');
+            cell.textContent = rowData[header];
+            row.appendChild(cell);
+          });
+          tbody.appendChild(row);
+        });
+
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        tableList.appendChild(table);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    document.getElementById('table-select').addEventListener('change', async (event) => {
+      try {
+        const selectedTable = event.target.value;
+        const response = await axios.get(`/api/table/${selectedTable}`);
+        const tableData = response.data;
+        const tableList = document.getElementById('table-list');
+        tableList.innerHTML = `<h3>Data from Table "${selectedTable}":</h3>`;
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        const tbody = document.createElement('tbody');
+
+        // Create table headers
+        const headers = Object.keys(tableData[0]);
+        const headerRow = document.createElement('tr');
+        headers.forEach(header => {
+          const th = document.createElement('th');
+          th.textContent = header;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+
+        // Create table rows
+        tableData.forEach(rowData => {
+          const row = document.createElement('tr');
+          headers.forEach(header => {
+            const cell = document.createElement('td');
+            cell.textContent = rowData[header];
+            row.appendChild(cell);
+          });
+          tbody.appendChild(row);
+        });
+
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        tableList.appendChild(table);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>

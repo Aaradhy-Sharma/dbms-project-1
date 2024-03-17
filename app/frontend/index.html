@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #e6e6e6;
+    }
+
+    /* Existing styles */
+    .edit-form, .create-form {
+      margin-top: 20px;
+    }
+
+    .edit-form label, .create-form label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .edit-form input, .create-form input {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .edit-form button, .create-form button {
+      padding: 5px 10px;
+      background-color: #4a5568;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .edit-form button:hover, .create-form button:hover {
+      background-color: #2d3748;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-4">Database Viewer</h1>
+    <div class="mb-4">
+      <label for="table-select" class="block font-bold mb-2">Select Table:</label>
+      <select id="table-select" class="border border-gray-300 rounded-md px-3 py-2 w-full">
+        <option value="ADMIN">ADMIN</option>
+        <option value="CHIEF_GUEST">CHIEF_GUEST</option>
+        <option value="COLLEGE">COLLEGE</option>
+        <option value="Company">Company</option>
+        <option value="COMPETETION">COMPETETION</option>
+        <option value="CONFERENCE">CONFERENCE</option>
+        <option value="EVENT">EVENT</option>
+        <option value="FACULTY">FACULTY</option>
+        <option value="FEST">FEST</option>
+        <option value="Government">Government</option>
+        <option value="JUDGES">JUDGES</option>
+        <option value="MENTORED_BY">MENTORED_BY</option>
+        <option value="ORGANISATION">ORGANISATION</option>
+        <option value="PARTICIPATE_IN">PARTICIPATE_IN</option>
+        <option value="PERFORMER">PERFORMER</option>
+        <option value="PRIZE">PRIZE</option>
+        <option value="STUDENT">STUDENT</option>
+        <option value="USER">USER</option>
+      </select>
+    </div>
+    <div id="table-list" class="bg-white rounded-md shadow-md p-4"></div>
+    <button id="display-database-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Show Database
+    </button>
+    <div id="edit-form-container" class="mt-4"></div>
+    <div id="create-form-container" class="mt-4"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
