@@ -3,76 +3,6 @@ const tableList = document.getElementById('table-list');
 const editFormContainer = document.getElementById('edit-form-container');
 const createFormContainer = document.getElementById('create-form-container');
 const displayDatabaseBtn = document.getElementById('display-database-btn');
-const loginFormContainer = document.getElementById('login-form-container');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const loginError = document.getElementById('invalid-credentials');
-const databaseContent = document.getElementById('database-content');
-const logoutButton = document.getElementById('logout-btn');
-
-// Initially hide the table-related elements
-tableSelect.style.display = 'none';
-tableList.style.display = 'none';
-editFormContainer.style.display = 'none';
-createFormContainer.style.display = 'none';
-databaseContent.style.display = 'none'; // Initially hide the database content
-logoutButton.style.display = 'none'; // Initially hide the logout button
-
-// Show the login form container
-loginFormContainer.style.display = 'flex'; // Use 'flex' instead of 'block'
-
-const loginForm = document.getElementById('login-form');
-loginForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-
-  // Check if email and password match the predefined values
-  if (email === 'as783@snu.edu.in' && password === 'root@123') {
-    // Hide the login form and show the table-related elements
-    loginFormContainer.style.display = 'none';
-    tableSelect.style.display = 'block';
-    tableList.style.display = 'block';
-    editFormContainer.style.display = 'block';
-    createFormContainer.style.display = 'block';
-    databaseContent.style.display = 'block'; // Show the database content
-    logoutButton.style.display = 'block'; // Show the logout button
-
-    // Reset the login error message and input field styles
-    loginError.style.display = 'none';
-    emailInput.style.borderColor = '';
-    passwordInput.style.borderColor = '';
-
-    // Fetch and display all tables
-    //fetchAndDisplayAllTables();
-  } else {
-    // Show login error message and highlight input fields
-    loginError.style.display = 'block';
-    emailInput.style.borderColor = 'red';
-    passwordInput.style.borderColor = 'red';
-  }
-});
-
-// Logout functionality
-logoutButton.addEventListener('click', function() {
-  // Hide the table-related elements and logout button
-  tableSelect.style.display = 'none';
-  tableList.style.display = 'none';
-  editFormContainer.style.display = 'none';
-  createFormContainer.style.display = 'none';
-  databaseContent.style.display = 'none';
-  logoutButton.style.display = 'none';
-
-  // Show the login form container
-  loginFormContainer.style.display = 'flex';
-
-  // Reset the login form
-  emailInput.value = '';
-  passwordInput.value = '';
-  loginError.style.display = 'none';
-  emailInput.style.borderColor = '';
-  passwordInput.style.borderColor = '';
-});
 
 // Fetch table names and populate the select dropdown
 fetchTableNames();
@@ -323,75 +253,75 @@ tableSelect.addEventListener('change', (e) => {
 
 // Function to fetch and display all tables
 async function fetchAndDisplayAllTables() {
-  try {
-    const response = await axios.get('/api/allTables');
-    const tableNames = response.data;
-    console.log('Fetched table names:', tableNames); // Debugging
-    renderTableNames(tableNames);
-  } catch (error) {
-    console.error('Error fetching table names:', error);
-  }
+    try {
+        const response = await axios.get('/api/allTables');
+        const tableNames = response.data;
+        console.log('Fetched table names:', tableNames); // Debugging
+        renderTableNames(tableNames);
+    } catch (error) {
+        console.error('Error fetching table names:', error);
+    }
 }
 
 // Render table names
 function renderTableNames(tableNames) {
-  // Clear the existing table list
-  tableList.innerHTML = '';
+    // Clear the existing table list
+    tableList.innerHTML = '';
 
-  // Create the output table
-  const table = document.createElement('table');
-  table.classList.add('table-auto', 'w-full', 'border-collapse');
+    // Create the output table
+    const table = document.createElement('table');
+    table.classList.add('table-auto', 'w-full', 'border-collapse');
 
-  // Create table header
-  const thead = document.createElement('thead');
-  const headerRow = document.createElement('tr');
-  const headerCell = document.createElement('th');
-  headerCell.textContent = 'Table Name';
-  headerCell.classList.add('border', 'px-4', 'py-2', 'bg-gray-200');
-  headerRow.appendChild(headerCell);
-  const headerCellActions = document.createElement('th');
-  headerCellActions.textContent = 'Actions';
-  headerCellActions.classList.add('border', 'px-4', 'py-2', 'bg-gray-200');
-  headerRow.appendChild(headerCellActions);
-  thead.appendChild(headerRow);
-  table.appendChild(thead);
+    // Create table header
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    const headerCell = document.createElement('th');
+    headerCell.textContent = 'Table Name';
+    headerCell.classList.add('border', 'px-4', 'py-2', 'bg-gray-200');
+    headerRow.appendChild(headerCell);
+    const headerCellActions = document.createElement('th');
+    headerCellActions.textContent = 'Actions';
+    headerCellActions.classList.add('border', 'px-4', 'py-2', 'bg-gray-200');
+    headerRow.appendChild(headerCellActions);
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
 
-  // Create table body
-  const tbody = document.createElement('tbody');
-  tableNames.forEach(tableName => {
-    const row = document.createElement('tr');
-    const cell = document.createElement('td');
-    cell.textContent = tableName;
-    cell.classList.add('border', 'px-4', 'py-2');
-    row.appendChild(cell);
+    // Create table body
+    const tbody = document.createElement('tbody');
+    tableNames.forEach(tableName => {
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.textContent = tableName;
+        cell.classList.add('border', 'px-4', 'py-2');
+        row.appendChild(cell);
 
-    // Create display button
-    const displayButtonCell = document.createElement('td');
-    const displayButton = document.createElement('button');
-    displayButton.textContent = 'Display';
-    displayButton.classList.add('bg-blue-500', 'hover:bg-blue-700', 'text-white', 'font-bold', 'py-2', 'px-4', 'rounded', 'ml-2');
-    displayButton.addEventListener('click', () => fetchAndDisplayTableData(tableName));
-    displayButtonCell.appendChild(displayButton);
-    row.appendChild(displayButtonCell);
+        // Create display button
+        const displayButtonCell = document.createElement('td');
+        const displayButton = document.createElement('button');
+        displayButton.textContent = 'Display';
+        displayButton.classList.add('bg-blue-500', 'hover:bg-blue-700', 'text-white', 'font-bold', 'py-2', 'px-4', 'rounded', 'ml-2');
+        displayButton.addEventListener('click', () => fetchAndDisplayTableData(tableName));
+        displayButtonCell.appendChild(displayButton);
+        row.appendChild(displayButtonCell);
 
-    tbody.appendChild(row);
-  });
-  table.appendChild(tbody);
+        tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
 
-  // Append the table to the table list container
-  tableList.appendChild(table);
+    // Append the table to the table list container
+    tableList.appendChild(table);
 
-  // Create close button
-  const closeButton = document.createElement('button');
-  closeButton.textContent = 'Close';
-  closeButton.classList.add('bg-red-500', 'hover:bg-red-700', 'text-white', 'font-bold', 'py-2', 'px-4', 'rounded', 'mt-4');
-  closeButton.addEventListener('click', closeDatabaseView);
-  tableList.appendChild(closeButton);
+    // Create close button
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.classList.add('bg-red-500', 'hover:bg-red-700', 'text-white', 'font-bold', 'py-2', 'px-4', 'rounded', 'mt-4');
+    closeButton.addEventListener('click', closeDatabaseView);
+    tableList.appendChild(closeButton);
 }
 
 // Function to close the database view
 function closeDatabaseView() {
-  tableList.innerHTML = ''; // Clear the table list container
+    tableList.innerHTML = ''; // Clear the table list container
 }
 
 // Event listener for the display database button
