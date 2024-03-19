@@ -50,6 +50,9 @@ loginForm.addEventListener('submit', function(e) {
     loginError.style.display = 'block';
     emailInput.style.borderColor = 'red';
     passwordInput.style.borderColor = 'red';
+    console.log('Invalid credentials');
+    console.log('Email:', email);
+    console.log('Password', password);
   }
 });
 
