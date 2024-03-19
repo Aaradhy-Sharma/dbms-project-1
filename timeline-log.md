@@ -104,9 +104,9 @@ User: Aaradhy
 Given the first project evaluation to the Assigned TA. 
 User: Aaradhy,Dhruv,Unnat,Jasmehar
 
-
-
-
+# Log-21 : Date 19 March 2024 
+Added various crud procedures to the database. https://github.com/Aaradhy-Sharma/dbms-project-1/blob/main/Screenshot%202024-03-19%20at%2019.10.13.png
+User: Aaradhy
 
 
 
