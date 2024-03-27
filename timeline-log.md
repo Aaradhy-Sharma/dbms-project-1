@@ -3,7 +3,8 @@
 # 1. Aaradhy Sharma, SNU id: as783 roll no: 2210110100
 # 2. Unnat Sharma, SNU id: us997 roll no: 2210110634 
 # 3. Dhruv Mishra, SNU id: dm409 roll no: 2210110674
-# 4. Jasmehar Singh, SNU id: jc270 roll no: 2210110719 (added later to the group)
+# 4. Jasmehar Singh, SNU id: jc270 roll no: 2210110719 (added later to the group) 
+# Jasmehar has been removed from the team as of 27 March 2024
 
 
 # Log-1 : Date: 16 January 2024
