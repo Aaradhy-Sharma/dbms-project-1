@@ -126,9 +126,9 @@ Finished with separate admin and user level views. Kept as783 as an admin level 
 - Added support for dark and awesomify mode
 User: Aaradhy
 
-
-
-
+# Log-26 : Date 11 April 2024
+Added normal and dbnormal() function and procedure respectively to the database. normal() is used to check the current highest normalisation form of a table taken as input(tablename) and dbnormal() takes db name (proj) in our case as input and then proceeds to call normal() for all the tables present in the database. 
+User: Aaradhy
 
 
 
