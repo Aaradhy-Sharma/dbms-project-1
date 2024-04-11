@@ -4,7 +4,7 @@
 # 2. Unnat Sharma, SNU id: us997 roll no: 2210110634 
 # 3. Dhruv Mishra, SNU id: dm409 roll no: 2210110674
 # 4. Jasmehar Singh, SNU id: jc270 roll no: 2210110719 (added later to the group) 
-# Jasmehar has been removed from the team as of 27 March 2024
+
 
 
 # Log-1 : Date: 16 January 2024
@@ -109,8 +109,22 @@ User: Aaradhy,Dhruv,Unnat,Jasmehar
 Added various crud procedures to the database. https://github.com/Aaradhy-Sharma/dbms-project-1/blob/main/Screenshot%202024-03-19%20at%2019.10.13.png
 User: Aaradhy
 
+# Log-22 : Date 21 March 2024
+Looking for various options to implement user and admin level access separately for the dbms. 
+User: Aaradhy, Jasmehar 
 
+# Log-23 : Date 23 March 2024
+Started working on making different access modes for user and admin level access. Kept as783 as an admin level authorization and dm409 as a user level.
+User: Aaradhy 
 
+# Log-24 : Date 27 March 2024
+Started refining the database to support normalisation forms etc...
+User: Aaradhy 
+
+# Log-25 : Date 11 April 2024 
+Finished with separate admin and user level views. Kept as783 as an admin level authorization and dm409 as a user level. 
+- Added support for dark and awesomify mode
+User: Aaradhy
 
 
 
