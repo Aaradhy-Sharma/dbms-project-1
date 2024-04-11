@@ -11,6 +11,16 @@ import {
 const app = express();
 app.use(cors());
 
+const isAdmin = (req, res, next) => {
+  const email = req.headers.email; 
+
+  if (email === 'as783@snu.edu.in') {
+    next(); // Allow access to the route
+  } else {
+    res.status(403).send('Forbidden: Only admin can perform this action');
+  }
+};
+
 // Route to get all table names
 app.get('/api/allTables', async (req, res) => {
   try {
