@@ -170,46 +170,50 @@ async function handleEditClick(e) {
   const id = e.target.dataset.id;
   const tableName = e.target.dataset.table;
 
-  // Fetch the record data from the backend
   try {
     const response = await axios.get(`/api/table/${tableName}/${id}`);
     const recordData = response.data[0];
 
-    // Display a form to edit the record
-    const editForm = document.createElement('form');
-    editForm.classList.add('edit-form');
-    editForm.dataset.table = tableName;
-    editForm.dataset.id = id;
-
-    const fields = Object.keys(recordData);
-    fields.forEach(field => {
-      if (field !== 'id') {
-        const label = document.createElement('label');
-        label.textContent = field;
-        editForm.appendChild(label);
-
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.name = field;
-        input.value = recordData[field];
-        input.classList.add('border', 'border-gray-300', 'rounded-md', 'px-3', 'py-2', 'w-full');
-        editForm.appendChild(input);
-      }
-    });
-
-    const submitBtn = document.createElement('button');
-    submitBtn.type = 'submit';
-    submitBtn.textContent = 'Save Changes';
-    submitBtn.classList.add('bg-blue-500', 'hover:bg-blue-700', 'text-white', 'font-bold', 'py-2', 'px-4', 'rounded');
-    editForm.appendChild(submitBtn);
-
-    editForm.addEventListener('submit', handleEditFormSubmit);
-
+    // Create the edit form dynamically
+    const editForm = createEditForm(tableName, id, recordData);
     editFormContainer.innerHTML = '';
     editFormContainer.appendChild(editForm);
   } catch (error) {
     console.error('Error fetching record data:', error);
   }
+}
+
+function createEditForm(tableName, id, recordData) {
+  const editForm = document.createElement('form');
+  editForm.classList.add('edit-form');
+  editForm.dataset.table = tableName;
+  editForm.dataset.id = id;
+
+  const fields = Object.keys(recordData);
+  fields.forEach(field => {
+    if (field !== 'id') {
+      const label = document.createElement('label');
+      label.textContent = field;
+      editForm.appendChild(label);
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = field;
+      input.value = recordData[field];
+      input.classList.add('border', 'border-gray-300', 'rounded-md', 'px-3', 'py-2', 'w-full');
+      editForm.appendChild(input);
+    }
+  });
+
+  const submitBtn = document.createElement('button');
+  submitBtn.type = 'submit';
+  submitBtn.textContent = 'Save Changes';
+  submitBtn.classList.add('bg-blue-500', 'hover:bg-blue-700', 'text-white', 'font-bold', 'py-2', 'px-4', 'rounded');
+  editForm.appendChild(submitBtn);
+
+  editForm.addEventListener('submit', handleEditFormSubmit);
+
+  return editForm;
 }
 
 async function handleEditFormSubmit(e) {
@@ -231,6 +235,68 @@ async function handleEditFormSubmit(e) {
   } catch (error) {
     console.error('Error updating record:', error);
   }
+}
+
+// Add a reference to the "List Events" button
+const listEventsBtn = document.getElementById('list-events-btn');
+
+// Add an event listener to the "List Events" button
+listEventsBtn.addEventListener('click', async () => {
+  try {
+    const response = await axios.get('/api/events');
+    const events = response.data;
+    renderEventList(events);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+  }
+});
+
+// Function to render the event list
+function renderEventList(events) {
+  const eventListContainer = document.getElementById('event-list-container');
+  eventListContainer.innerHTML = ''; // Clear the container
+
+  if (events.length === 0) {
+    eventListContainer.innerHTML = '<p>No events available.</p>';
+    return;
+  }
+
+  const table = document.createElement('table');
+  table.classList.add('table-auto', 'w-full', 'border-collapse');
+
+  // Create table header
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  headerRow.classList.add('bg-gray-200');
+
+  Object.keys(events[0]).forEach((header) => {
+    const th = document.createElement('th');
+    th.textContent = header;
+    th.classList.add('border', 'px-4', 'py-2');
+    headerRow.appendChild(th);
+  });
+
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  // Create table rows
+  const tbody = document.createElement('tbody');
+  events.forEach((event) => {
+    const tr = document.createElement('tr');
+    tr.classList.add(events.indexOf(event) % 2 === 0 ? 'bg-white' : 'bg-gray-100');
+
+    Object.values(event).forEach((value) => {
+      const td = document.createElement('td');
+      td.textContent = value;
+      td.classList.add('border', 'px-4', 'py-2');
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  eventListContainer.appendChild(table);
 }
 
 async function handleDeleteClick(e) {
@@ -295,7 +361,6 @@ function renderCreateForm(tableName) {
   formTitle.textContent = `Create New Record for ${tableName}`;
   createForm.appendChild(formTitle);
 
-  // Add input fields for each column
   axios.get(`/api/table/${tableName}`)
     .then(response => {
       const tableData = response.data;
@@ -346,6 +411,19 @@ function removeDarkMode() {
   // Remove additional styles for dark mode here
 }
 
+function updateClock() {
+  const clockContainer = document.getElementById('clock-container');
+  const currentDate = new Date();
+  const options = { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+  const formattedTime = currentDate.toLocaleDateString('en-US', options);
+  clockContainer.textContent = formattedTime;
+}
+
+setInterval(updateClock, 1000);
+
+// Call the updateClock function initially
+updateClock();
+
 const awesomifyToggle = document.getElementById('awesomify-toggle');
 
 let intervalId;
@@ -388,7 +466,41 @@ function generateRandomColor() {
   }
   return color;
 }
+const openSqlTerminalButton = document.getElementById('open-sql-terminal');
 
+openSqlTerminalButton.addEventListener('click', () => {
+  sqlTerminalContainer.classList.remove('hidden');
+});
+
+closeSqlTerminalButton.addEventListener('click', () => {
+  sqlTerminalContainer.classList.add('hidden');
+});
+
+async function executeSQL(query) {
+  try {
+    const response = await axios.post('/api/sql', { query }, {
+      headers: { email: 'as783@snu.edu.in' } // Include the email in the request headers
+    });
+    const results = response.data;
+    sqlTerminalElement.innerHTML = '';
+    results.forEach(result => {
+      const resultElement = document.createElement('pre');
+      resultElement.textContent = JSON.stringify(result, null, 2);
+      sqlTerminalElement.appendChild(resultElement);
+    });
+  } catch (error) {
+    const errorElement = document.createElement('pre');
+    errorElement.textContent = `Error: ${error.message}`;
+    sqlTerminalElement.innerHTML = '';
+    sqlTerminalElement.appendChild(errorElement);
+  }
+}
+const sqlTerminalContainer = document.getElementById('sql-terminal-container');
+const sqlTerminalElement = document.getElementById('sql-terminal');
+const closeSqlTerminalButton = document.getElementById('close-sql-terminal');
+
+// Add styling for the SQL terminal
+sqlTerminalElement.classList.add('h-64', 'overflow-auto', 'bg-gray-900', 'text-white', 'p-2', 'rounded-md', 'shadow-md');
 
 // Handle create form submission
 async function handleCreateFormSubmit(e) {
@@ -519,134 +631,3 @@ function renderUserInfo(email, isAdmin) {
   headerContainer.appendChild(userInfoContainer);
 }
 
-
-function getPrimaryKeyColumn(tableName) {
-  switch (tableName) {
-    case 'ADMIN':
-      return 'Admin_id';
-    case 'CHIEF_GUEST':
-      return 'EC_ID, Admin_id, C_id';
-    case 'COLLEGE':
-      return 'COrg_id, ECol_id, College_id';
-    case 'Company':
-      return 'ComOrg_id, UniqueID, Company_id';
-    case 'COMPETETION':
-      return 'EC_ID, Admin_id, C_ID';
-    case 'CONFERENCE':
-      return 'EC_ID, Admin_id, Conference_id';
-    case 'EVENT':
-      return 'E_ID, Admin_id';
-    case 'FACULTY':
-      return 'UF_ID, Staff_id';
-    case 'FEST':
-      return 'EF_ID, Admin_id, FEST_ID';
-    case 'Government':
-      return 'GOrg_id, EG_id, Policy_no';
-    case 'JUDGES':
-      return 'EC_ID, UniqueID, Admin_id';
-    case 'MENTORED_BY':
-      return 'Roll_no, Mentor_id';
-    case 'ORGANISATION':
-      return 'Org_id, EO_id';
-    case 'PARTICIPATE_IN':
-      return 'U_ID, E_ID';
-    case 'PERFORMER':
-      return 'EF_id, Admin_id, Fest_id';
-    case 'PRIZE':
-      return 'EC_ID, Admin_id, C_id';
-    case 'STUDENT':
-      return 'US_ID, Roll_no';
-    case 'USER':
-      return 'U_ID';
-    default:
-      return 'id';
-  }
-}
-
-
-// Update the handleEditClick function
-async function handleEditClick(e) {
-  const id = e.target.dataset.id;
-  const tableName = e.target.dataset.table;
-  const primaryKeyColumn = getPrimaryKeyColumn(tableName);
-
-  try {
-    const response = await axios.get(`/api/table/${tableName}/${id}`, {
-      headers: { email: 'as783@snu.edu.in' }
-    });
-    const recordData = response.data[0];
-    const editForm = createEditForm(tableName, recordData[primaryKeyColumn], recordData);
-    editFormContainer.innerHTML = '';
-    editFormContainer.appendChild(editForm);
-  } catch (error) {
-    console.error('Error fetching record data:', error);
-  }
-}
-
-// Update the handleEditFormSubmit function
-async function handleEditFormSubmit(e) {
-  e.preventDefault();
-  const tableName = e.target.dataset.table;
-  const id = e.target.dataset.id;
-  const primaryKeyColumn = getPrimaryKeyColumn(tableName);
-  const formData = new FormData(e.target);
-  const updatedData = {};
-  formData.forEach((value, key) => {
-    updatedData[key] = value;
-  });
-
-  try {
-    const response = await axios.put(`/api/table/${tableName}/${id}`, updatedData, {
-      headers: { email: 'as783@snu.edu.in' }
-    });
-    console.log('Record updated:', response.data);
-    fetchAndDisplayTableData(tableName);
-  } catch (error) {
-    console.error('Error updating record:', error);
-  }
-}
-
-async function handleDeleteClick(e) {
-  const id = e.target.dataset.id;
-  const tableName = e.target.dataset.table;
-  const primaryKeyColumn = getPrimaryKeyColumn(tableName);
-
-  if (!id || typeof id !== 'string' || id.trim() === '') {
-    console.error('Invalid id value:', id);
-    return;
-  }
-
-  try {
-    await axios.delete(`/api/table/${tableName}/${id}`, {
-      headers: { email: 'as783@snu.edu.in' },
-    });
-    fetchAndDisplayTableData(tableName);
-  } catch (error) {
-    console.error('Error deleting record:', error);
-  }
-}
-async function handleCreateFormSubmit(e) {
-  e.preventDefault();
-  const tableName = e.target.dataset.table;
-  const formData = new FormData(e.target);
-  const newData = {};
-  formData.forEach((value, key) => {
-    newData[key] = value;
-  });
-
-  if (!newData || Object.keys(newData).length === 0) {
-    console.error('Invalid data provided for insertion.');
-    return;
-  }
-
-  try {
-    const response = await axios.post(`/api/table/${tableName}`, newData, {
-      headers: { email: 'as783@snu.edu.in' },
-    });
-    console.log('Record created:', response.data);
-    fetchAndDisplayTableData(tableName);
-    e.target.reset();
-  } catch (error) {
-    console.error('Error creating record:', error);
-  }
-}

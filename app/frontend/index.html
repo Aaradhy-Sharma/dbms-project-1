@@ -128,6 +128,30 @@
   z-index: -1;
 }
 
+.login-container input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+
+.login-container button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #45a049;
+}
+
 @keyframes animatedBorder {
   0% {
     background-position: 0% 50%;
@@ -162,9 +186,122 @@
   background-color: #4a5568;
 }
 
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('your-background-image.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px); 
+  z-index: -1;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+#login-form-container {
+  animation: slide-in 0.5s ease-in-out;
+}
+
+#login-form button:hover {
+  background-color: #2d3748;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(66, 153, 225, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(66, 153, 225, 0);
+  }
+}
+
+.login-form input:focus {
+  outline: none;
+  animation: pulse 1s infinite;
+}
+
+body {
+  background: linear-gradient(45deg, #6bc5e8, #318faf, #369fac, #87CEEB);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.login-container {
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.search-input {
+  background-color: #4a5568;
+  color: #e2e8f0;
+  border-radius: 9999px;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.search-input:focus {
+  outline: 2px solid #4299e1;
+}
+
   </style>
 </head>
 <body class="bg-gray-100 font-sans">
+  <nav class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center">
+        <a href="https://github.com/Aaradhy-Sharma" class="mr-4 hover:text-gray-400">GitHub</a>
+        <div class="relative">
+          <input type="text" placeholder="Search" class="bg-gray-700 rounded-full px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <svg class="w-4 h-4 absolute top-1/2 transform -translate-y-1/2 right-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+        </div>
+      </div>
+      <div id="clock-container" class="text-lg font-bold"></div>
+      <div id="header-container" class="flex items-center"></div>
+    </div>
+  </nav>
   <div class="flex justify-end mb-4">
     <label for="dark-mode-toggle" class="flex items-center cursor-pointer">
       <span class="mr-2">Dark Mode</span>
@@ -187,7 +324,7 @@
     </label>
   </div>
 <body class="bg-gray-100 font-sans">
-  <div id="login-form-container">
+  <div id="login-form-container" class="login-container">
     <h1 class="text-3xl font-bold mb-4">Admin Login</h1>
     <form id="login-form">
       <label for="email">Email:</label>
@@ -202,7 +339,17 @@
     </form>
   </div>
 
+  <button id="open-sql-terminal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Open SQL Terminal
+  </button>
+
   <div class="container mx-auto py-8" id="database-content">
+    <div id="sql-terminal-container" class="hidden bg-gray-800 text-white p-4 rounded-md shadow-md mt-4">
+      <h2 class="text-lg font-bold mb-2">SQL Terminal</h2>
+      <div id="sql-terminal"></div>
+      <button id="close-sql-terminal" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2">Close</button>
+    </div>
+
     <div class="flex justify-between items-center mb-4">
       <h1 class="text-3xl font-bold">Database Viewer</h1>
       <div id="header-container"></div> <!-- Container for user info -->
@@ -236,6 +383,10 @@
     <button id="display-database-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
       Show Database
     </button>
+    <button id="list-events-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      List Events
+    </button>
+    <div id="event-list-container" class="mt-4"></div>
     <div id="edit-form-container" class="mt-4"></div>
     <div id="create-form-container" class="mt-4"></div>
   </div>
