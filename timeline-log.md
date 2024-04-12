@@ -130,6 +130,9 @@ User: Aaradhy
 Added normal and dbnormal() function and procedure respectively to the database. normal() is used to check the current highest normalisation form of a table taken as input(tablename) and dbnormal() takes db name (proj) in our case as input and then proceeds to call normal() for all the tables present in the database. 
 User: Aaradhy
 
+# Log-27 : Date 12 April 2024
+Tried fixing the error of undefined values being sent to the backend in response to crud/edit operations being performed in the frontend. I have been unsuccessful in trying to find a fix for the same despite spending multiple hours on the same. The same is left for the other team members to try and resolve in the remainder time. 
+
 
 
 
