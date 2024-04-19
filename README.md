@@ -86,15 +86,23 @@ The `isAdmin` middleware function checks if the user is an admin based on their 
 The server has several routes:
 
 `GET /api/events`: Fetches all events from the 'EVENT' table and sends them as a JSON response.
+
 `GET /api/allTables`: Fetches all table names from the database and sends them as a JSON response.
+
 `GET /api/table/:tableName`: Fetches all records from the specified table and sends them as a JSON response.
+
 `POST /api/sql`: Executes a SQL query provided in the request body. This route is protected by the isAdmin middleware, so only admins can execute SQL queries.
+
 `DELETE /api/table/:tableName/:id`: Deletes the record with the specified ID from the specified table and sends the result as a JSON response.
+
 `POST /api/table/:tableName`: Creates a new record in the specified table with the data provided in the request body and sends the result as a JSON response.
+
 The server also has updated versions of some routes:
 
 `GET /api/table/:tableName/:id`: Fetches the record with the specified ID from the specified table and sends it as a JSON response.
+
 `PUT /api/table/:tableName/:id`: Updates the record with the specified ID in the specified table with the data provided in the request body and sends the result as a JSON response.
+
 `DELETE /api/table/:tableName/:id`: Deletes the record with the specified ID from the specified table and sends the result as a JSON response. This version of the route parses the ID as a number and checks if it's valid.
 Finally, the server listens for connections on port 8080.
 
